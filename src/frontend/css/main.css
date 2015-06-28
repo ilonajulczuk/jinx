@@ -1,14 +1,23 @@
 body {
-    color: red;
+    color: #3d3d3c;
+    font-family: "droid serif" serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: "droid sans" sans-serif;
+    margin-bottom: 10px;
 }
 
 header {
-    margin: 20px;
+    margin-bottom: 20px;
+    padding: 40px;
     text-align: center;
+    border-bottom: #cccccc solid 1px;
 }
 
 header h1 {
     font-size: 30px;
+    font-weight: 800;
 }
 
 header .tagline {
@@ -21,7 +30,35 @@ header .tagline {
     color: #2c2c2c;
 }
 
+.control li {
+    display: inline;
+}
+.control {
+    float: right;
+    height: 50px;
+}
+
+.button {
+    background-color: #33cd33;
+    padding: 5px 20px 5px 20px;
+    margin: 5px;
+}
+
+.button:hover {
+    background-color: #33fd33;
+}
+
 article h1 {
     font-size: 28px;
     margin-bottom: 20px;
 }
+
+table {
+    width: 800px;
+    margin: 0 auto 0 auto;
+}
+
+footer {
+    margin-bottom: 40px;
+    padding: 20px;
+    border-top: #cccccc solid 1px;
