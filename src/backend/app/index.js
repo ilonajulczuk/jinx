@@ -2,7 +2,8 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var Bear = require('./app/models/bear');
+var Bear = require('./models/bear');
+var Site = require('./models/site');
 
 mongoose.connect('mongodb://localhost/');
 app.use(bodyParser.urlencoded({extended: true}));
@@ -78,7 +79,68 @@ router.route('/bears/:bear_id')
         });
     });
 
+function updateSite(site, data) {
+    site.name = data.name;
+    site.address = data.address;
+    site.cname = data.cname;
+    site.active = data.active;
+}
 
+router.route('/sites')
+    .post(function(req, res) {
+        var site = new Site();
+        updateSite(site, req.body);
+
+        site.save(function(err) {
+            if (err) {
+                res.send(err);
+            }
+            res.json({message: 'Site created! Name ' + site.name});
+        });
+    })
+    .get(function(req, res) {
+        Site.find(function(err, sites) {
+            if(err) {
+                res.send(err);
+            }
+            res.json(sites);
+        });
+    });
+
+router.route('/sites/:site_id')
+    .get(function(req, res) {
+        Site.findById(req.params.site_id, function(err, site) {
+            if (err) {
+                res.send(err);
+            }
+            res.json(site);
+        });
+    })
+    .put(function(req, res) {
+        Site.findById(req.params.site_id, function(err, site) {
+            if (err) {
+                res.send(err);
+            }
+
+            updateSite(site, req.body);
+            site.save(function(err) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json({message: 'site updated!'});
+            });
+        });
+    })
+    .delete(function(req, res) {
+        Site.remove({
+            _id: req.params.site_id
+        }, function(err, site) {
+            if (err) {
+                res.send(err);
+            }
+            res.json({message: 'Successfully deleted'});
+        });
+    });
 
 app.use('/api', router);
 
